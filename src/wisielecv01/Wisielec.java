@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 public class Wisielec extends JFrame {
 	private JLabel wordLabel;
@@ -18,6 +19,8 @@ public class Wisielec extends JFrame {
     private StringBuilder currentWordState;
     private int attemptsLeft;
     private StringBuilder usedLetters;
+    
+    private Map<Integer, String> texturePaths;
 
     public Wisielec(String wordToGuess, int windowWidth, int windowHeight) {
         this.wordToGuess = wordToGuess;
@@ -25,6 +28,8 @@ public class Wisielec extends JFrame {
         this.attemptsLeft = 7;
         this.usedLetters = new StringBuilder();
 
+        this.texturePaths =TextureMap.createTextureMap();
+        
         setTitle("Wisielec");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
@@ -107,22 +112,10 @@ public class Wisielec extends JFrame {
         
     }
     private void updateTexture() {
-        ImageIcon textureIcon;
-        if (attemptsLeft >= 7) {
-            textureIcon = new ImageIcon("textures/texture1.png"); // Ścieżka do tekstury dla 7 pozostałych prób
-        } else if (attemptsLeft == 6) {
-            textureIcon = new ImageIcon("textures/texture2.png"); // Ścieżka do tekstury dla 6 pozostałych prób
-        } else if (attemptsLeft == 5) {
-            textureIcon = new ImageIcon("textures/texture3.png"); // Ścieżka do tekstury dla 5 pozostałych prób
-        } else if (attemptsLeft == 4) {
-            textureIcon = new ImageIcon("textures/texture4.png"); // Ścieżka do tekstury dla 4 pozostałych prób
-        } else if (attemptsLeft == 3) {
-            textureIcon = new ImageIcon("textures/texture5.png"); // Ścieżka do tekstury dla 3 pozostałych prób
-        } else if (attemptsLeft == 2) {
-            textureIcon = new ImageIcon("textures/texture6.png"); // Ścieżka do tekstury dla 2 pozostałych prób
-        } else {
-            textureIcon = new ImageIcon("textures/blank.png"); // Ścieżka do tekstury dla 1 pozostałej próby
-        }
+    	ImageIcon textureIcon;
+    	
+    	String texturePath = texturePaths.get(attemptsLeft);
+        textureIcon = new ImageIcon(texturePath);
         Image image = textureIcon.getImage();
         Image scaledImage = image.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
         textureIcon = new ImageIcon(scaledImage);
