@@ -76,7 +76,7 @@ public class Wisielec extends JFrame {
                 usedLetters.append(Utils.getFirstCharacter(guess)).append(" ");
             }      
             usedLettersLabel.setText("Użyte litery: " + usedLetters.toString());
-            //
+
             for (int i = 0; i < wordToGuess.length(); i++) {
                 if (wordToGuess.charAt(i) == guess.charAt(0)) {
                     currentWordState.setCharAt(i, guess.charAt(0));
