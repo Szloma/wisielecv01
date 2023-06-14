@@ -5,10 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Wisielec extends JFrame {
-    private JLabel wordLabel;
+	private JLabel wordLabel;
     private JLabel attemptsLabel;
     private JTextField inputField;
     private JButton guessButton;
+    private JLabel textureLabel;
 
     private String wordToGuess;
     private StringBuilder currentWordState;
@@ -27,6 +28,7 @@ public class Wisielec extends JFrame {
         attemptsLabel = new JLabel("Pozostałe próby: " + attemptsLeft);
         inputField = new JTextField(10);
         guessButton = new JButton("Zgadnij");
+        textureLabel = new JLabel();
 
         guessButton.addActionListener(new ActionListener() {
             @Override
@@ -49,6 +51,8 @@ public class Wisielec extends JFrame {
                 wordLabel.setText(currentWordState.toString());
                 inputField.setText("");
 
+                updateTexture();
+
                 if (currentWordState.toString().equals(wordToGuess)) {
                     JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś!");
                     System.exit(0);
@@ -65,10 +69,36 @@ public class Wisielec extends JFrame {
         add(attemptsLabel);
         add(inputField);
         add(guessButton);
+        add(textureLabel);
 
         setSize(windowWidth, windowHeight);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        updateTexture();
+    }
+
+    private void updateTexture() {
+        ImageIcon textureIcon;
+        if (attemptsLeft >= 7) {
+            textureIcon = new ImageIcon("textures/texture1.png"); // Ścieżka do tekstury dla 7 pozostałych prób
+        } else if (attemptsLeft == 6) {
+            textureIcon = new ImageIcon("textures/texture2.png"); // Ścieżka do tekstury dla 6 pozostałych prób
+        } else if (attemptsLeft == 5) {
+            textureIcon = new ImageIcon("textures/texture3.png"); // Ścieżka do tekstury dla 5 pozostałych prób
+        } else if (attemptsLeft == 4) {
+            textureIcon = new ImageIcon("textures/texture4.png"); // Ścieżka do tekstury dla 4 pozostałych prób
+        } else if (attemptsLeft == 3) {
+            textureIcon = new ImageIcon("textures/texture5.png"); // Ścieżka do tekstury dla 3 pozostałych prób
+        } else if (attemptsLeft == 2) {
+            textureIcon = new ImageIcon("textures/texture6.png"); // Ścieżka do tekstury dla 2 pozostałych prób
+        } else {
+            textureIcon = new ImageIcon("textures/blank.png"); // Ścieżka do tekstury dla 1 pozostałej próby
+        }
+        Image image = textureIcon.getImage();
+        Image scaledImage = image.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+        textureIcon = new ImageIcon(scaledImage);
+        textureLabel.setIcon(textureIcon);
     }
 
     public static void main(String[] args) {
