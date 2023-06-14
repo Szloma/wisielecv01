@@ -12,15 +12,18 @@ public class Wisielec extends JFrame {
     private JTextField inputField;
     private JButton guessButton;
     private JLabel textureLabel;
+    private JLabel usedLettersLabel;
 
     private String wordToGuess;
     private StringBuilder currentWordState;
     private int attemptsLeft;
+    private StringBuilder usedLetters;
 
     public Wisielec(String wordToGuess, int windowWidth, int windowHeight) {
         this.wordToGuess = wordToGuess;
         this.currentWordState = new StringBuilder(wordToGuess.replaceAll("[a-zA-Z]", "_"));
         this.attemptsLeft = 7;
+        this.usedLetters = new StringBuilder();
 
         setTitle("Wisielec");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,6 +34,7 @@ public class Wisielec extends JFrame {
         inputField = new JTextField(10);
         guessButton = new JButton("Zgadnij");
         textureLabel = new JLabel();
+        usedLettersLabel = new JLabel();
 
         guessButton.addActionListener(new ActionListener() {
             @Override
@@ -51,8 +55,9 @@ public class Wisielec extends JFrame {
         add(inputField);
         add(guessButton);
         add(textureLabel);
-
-        setSize(windowWidth, windowHeight);
+        add(usedLettersLabel);
+        usedLettersLabel.setText("Użyte litery:");
+        setSize(windowWidth, windowHeight);	
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -60,11 +65,18 @@ public class Wisielec extends JFrame {
     }
 
     private void guessWord() {
-
+    	
         String guess = inputField.getText().toLowerCase();
-    	if(guess.length()!=0) {
-    		boolean correctGuess = false;
-
+        if(guess.length()!=0) {
+        	boolean correctGuess = false;
+        	
+        	//sekcja użytych liter
+            if (!usedLetters.toString().contains(guess)) {
+            	
+                usedLetters.append(Utils.getFirstCharacter(guess)).append(" ");
+            }      
+            usedLettersLabel.setText("Użyte litery: " + usedLetters.toString());
+            //
             for (int i = 0; i < wordToGuess.length(); i++) {
                 if (wordToGuess.charAt(i) == guess.charAt(0)) {
                     currentWordState.setCharAt(i, guess.charAt(0));
@@ -91,7 +103,7 @@ public class Wisielec extends JFrame {
                 JOptionPane.showMessageDialog(null, "Przegrałeś! Szukane słowo to: " + wordToGuess);
                 System.exit(0);
             }
-    	}
+        }
         
     }
     private void updateTexture() {
