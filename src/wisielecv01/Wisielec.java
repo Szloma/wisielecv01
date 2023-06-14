@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Wisielec extends JFrame {
 	private JLabel wordLabel;
@@ -33,35 +35,14 @@ public class Wisielec extends JFrame {
         guessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String guess = inputField.getText().toLowerCase();
-                boolean correctGuess = false;
+                guessWord();
+            }
+        });
 
-                for (int i = 0; i < wordToGuess.length(); i++) {
-                    if (wordToGuess.charAt(i) == guess.charAt(0)) {
-                        currentWordState.setCharAt(i, guess.charAt(0));
-                        correctGuess = true;
-                    }
-                }
-
-                if (!correctGuess) {
-                    attemptsLeft--;
-                    attemptsLabel.setText("Pozostałe próby: " + attemptsLeft);
-                }
-
-                wordLabel.setText(currentWordState.toString());
-                inputField.setText("");
-
-                updateTexture();
-
-                if (currentWordState.toString().equals(wordToGuess)) {
-                    JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś!");
-                    System.exit(0);
-                }
-
-                if (attemptsLeft == 0) {
-                    JOptionPane.showMessageDialog(null, "Przegrałeś! Szukane słowo to: " + wordToGuess);
-                    System.exit(0);
-                }
+        inputField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guessWord();
             }
         });
 
@@ -78,6 +59,41 @@ public class Wisielec extends JFrame {
         updateTexture();
     }
 
+    private void guessWord() {
+
+        String guess = inputField.getText().toLowerCase();
+    	if(guess.length()!=0) {
+    		boolean correctGuess = false;
+
+            for (int i = 0; i < wordToGuess.length(); i++) {
+                if (wordToGuess.charAt(i) == guess.charAt(0)) {
+                    currentWordState.setCharAt(i, guess.charAt(0));
+                    correctGuess = true;
+                }
+            }
+
+            if (!correctGuess) {
+                attemptsLeft--;
+                attemptsLabel.setText("Pozostałe próby: " + attemptsLeft);
+            }
+
+            wordLabel.setText(currentWordState.toString());
+            inputField.setText("");
+
+            updateTexture();
+
+            if (currentWordState.toString().equals(wordToGuess)) {
+                JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś!");
+                System.exit(0);
+            }
+
+            if (attemptsLeft == 0) {
+                JOptionPane.showMessageDialog(null, "Przegrałeś! Szukane słowo to: " + wordToGuess);
+                System.exit(0);
+            }
+    	}
+        
+    }
     private void updateTexture() {
         ImageIcon textureIcon;
         if (attemptsLeft >= 7) {
