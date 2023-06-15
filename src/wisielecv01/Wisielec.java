@@ -130,13 +130,17 @@ public class Wisielec extends JFrame {
         topPanel.add(guessButton);
         topPanel.add(resetButton);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout());
-        bottomPanel.add(textureLabel);
-        bottomPanel.add(usedLettersLabel);
+        
+        JPanel midPanel = new JPanel();
+        midPanel.setLayout(new FlowLayout());
+        midPanel.add(textureLabel);
+        
         //bottomPanel.add(resetButton);
-
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.add(usedLettersLabel);
+        
         add(topPanel, BorderLayout.NORTH);
+        add(midPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
         setSize(windowWidth, windowHeight);
@@ -226,7 +230,6 @@ public class Wisielec extends JFrame {
     }
 
     public static void main(String[] args) {
-        String wordToGuess = "janusz"; // Słowo do zgadnięcia
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height/2;
