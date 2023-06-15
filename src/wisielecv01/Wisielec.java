@@ -64,7 +64,44 @@ public class Wisielec extends JFrame {
                 resetGame();
             }
         });
+        
+        JMenu difficultyMenu = new JMenu("Trudność");
+        JMenuItem easyMenuItem = new JMenuItem("Łatwy");
+        JMenuItem mediumMenuItem = new JMenuItem("Średni");
+        JMenuItem hardMenuItem = new JMenuItem("Trudny");
 
+        easyMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setDifficulty(5);
+                setAttemptsLeft(10);
+            }
+        });
+
+        mediumMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setDifficulty(8);
+                setAttemptsLeft(7);
+            }
+        });
+
+        hardMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setDifficulty(10);
+                setAttemptsLeft(4);
+            }
+        });
+
+        difficultyMenu.add(easyMenuItem);
+        difficultyMenu.add(mediumMenuItem);
+        difficultyMenu.add(hardMenuItem);
+
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(difficultyMenu);
+
+        setJMenuBar(menuBar);
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
         topPanel.add(wordLabel);
@@ -87,6 +124,19 @@ public class Wisielec extends JFrame {
         setVisible(true);
 
         updateTexture();
+    }
+    private void setDifficulty(int length) {
+    	//tu napisać funkcje żeby getrandomword zwracało słowo danej długości
+        wordToGuess = wordBase.getRandomWord();
+        currentWordState = new StringBuilder("_".repeat(wordToGuess.length()));
+        wordLabel.setText(currentWordState.toString());
+        resetGame();
+    }
+
+    private void setAttemptsLeft(int attempts) {
+        attemptsLeft = attempts;
+        attemptsLabel.setText("Pozostałe próby: " + attemptsLeft);
+        resetGame();
     }
 
     private void guessWord() {
@@ -133,8 +183,10 @@ public class Wisielec extends JFrame {
     }
     private void updateTexture() {
     	ImageIcon textureIcon;
+    	int totalTextures = texturePaths.size();
+    	int textureIndex = Math.min(attemptsLeft, totalTextures) - 1;
     	
-    	String texturePath = texturePaths.get(attemptsLeft);
+    	String texturePath = texturePaths.get(textureIndex);
         textureIcon = new ImageIcon(texturePath);
         Image image = textureIcon.getImage();
         Image scaledImage = image.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
@@ -143,7 +195,6 @@ public class Wisielec extends JFrame {
     }
     private void resetGame() {
         currentWordState = new StringBuilder(wordToGuess.replaceAll("[a-zA-Z]", "_"));
-        attemptsLeft = 7;
         usedLetters = new StringBuilder();
 
         wordLabel.setText(currentWordState.toString());
