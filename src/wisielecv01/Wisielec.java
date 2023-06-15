@@ -24,7 +24,7 @@ public class Wisielec extends JFrame {
     
     private Map<Integer, String> texturePaths;
 
-    public Wisielec(String wordToGuess, int windowWidth, int windowHeight) {
+    public Wisielec(int windowWidth, int windowHeight) {
 
         this.wordToGuess = wordBase.getRandomWord();
         this.currentWordState = new StringBuilder(wordToGuess.replaceAll("[a-zA-Z]", "_"));
@@ -164,7 +164,7 @@ public class Wisielec extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Wisielec(wordToGuess, screenWidth, screenHeight);
+                new Wisielec(screenWidth, screenHeight);
             }
         });
     }
