@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.util.Map;
 
 public class Wisielec extends JFrame {
+	WordBase wordBase = new WordBase();
 	private JLabel wordLabel;
     private JLabel attemptsLabel;
     private JTextField inputField;
@@ -24,7 +25,8 @@ public class Wisielec extends JFrame {
     private Map<Integer, String> texturePaths;
 
     public Wisielec(String wordToGuess, int windowWidth, int windowHeight) {
-        this.wordToGuess = wordToGuess;
+
+        this.wordToGuess = wordBase.getRandomWord();
         this.currentWordState = new StringBuilder(wordToGuess.replaceAll("[a-zA-Z]", "_"));
         this.attemptsLeft = 7;
         this.usedLetters = new StringBuilder();
@@ -36,10 +38,10 @@ public class Wisielec extends JFrame {
 
         wordLabel = new JLabel(currentWordState.toString());
         attemptsLabel = new JLabel("Pozostałe próby: " + attemptsLeft);
-        inputField = new JTextField(10);
+        inputField = new JTextField(1);
         guessButton = new JButton("Zgadnij");
         textureLabel = new JLabel();
-        usedLettersLabel = new JLabel();
+        usedLettersLabel = new JLabel("Użyte litery:");
         resetButton = new JButton("Resetuj grę");
 
         guessButton.addActionListener(new ActionListener() {
@@ -158,6 +160,7 @@ public class Wisielec extends JFrame {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height/2;
         int screenWidth = screenSize.width/2;
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
