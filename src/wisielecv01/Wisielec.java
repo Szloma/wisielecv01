@@ -100,14 +100,14 @@ public class Wisielec extends JFrame {
         englishMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //setLanguage("english");
+                setLanguage("english");
             }
         });
 
         polishMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //setLanguage("polish");
+                setLanguage("polish");
             }
         });
 
@@ -161,6 +161,10 @@ public class Wisielec extends JFrame {
         attemptsLeft = attempts;
         attemptsLabel.setText("Pozostałe próby: " + attemptsLeft);
         resetGame();
+    }
+    private void setLanguage(String language) {
+        this.wordBase.setLanguage(language);
+        setDifficulty(wordToGuess.length());
     }
 
     private void guessWord() {

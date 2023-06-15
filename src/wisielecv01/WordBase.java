@@ -2,44 +2,51 @@ package wisielecv01;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.*;
 
 public class WordBase {
-	private Hashtable<Integer, String> dictionary;
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+    private Map<String, List<String>> dictionary;
 
-	}
-	public WordBase() {
-        dictionary = new Hashtable<>();
-        initializeDictionary();
+    public WordBase() {
+        dictionary = new HashMap<>();
+        initializedictionary();
     }
-	public void initializeDictionary() {
-		dictionary.put(1, "janusz");
-		dictionary.put(2, "grazyna");
-		dictionary.put(3, "autobus");
-		dictionary.put(4, "pjatk");
-		dictionary.put(5, "motur");
-	}
-	public void addWord(String word) {
-		dictionary.put(dictionary.size()+1, word);
-	}
-	public void DEBUGoutputDictionary() {
-		 Enumeration<Integer> e = dictionary.keys();
-	        while (e.hasMoreElements()) { 
-	            // Getting the key of a particular entry
-	            int key = e.nextElement();
-	            // Print and display the Rank and Name
-	            System.out.println("Rank : " + key
-	                               + "\t\t Name : "
-	                               + dictionary.get(key));
-	        }
-	}
-	public String getRandomWord() {
+
+    private void initializedictionary() {
+        List<String> englishWords = Arrays.asList("george", "karen", "pjaots", "motorcycle", "bus");
+        List<String> polishWords = Arrays.asList("janusz", "grazyna", "pjatk", "motur", "autobus");
+
+        dictionary.put("english", englishWords);
+        dictionary.put("polish", polishWords);
+    }
+
+    public void setLanguage(String language) {
+        if (!dictionary.containsKey(language)) {
+            throw new IllegalArgumentException("Unsupported language: " + language);
+        }
+    }
+
+    public String getRandomWord() {
         Random random = new Random();
-        Object[] values = dictionary.values().toArray();
-        Object randomValue = values[random.nextInt(values.length)];
-        return randomValue.toString();
+        List<String> words = new ArrayList<>(dictionary.values().stream().flatMap(List::stream).toList());
+        return words.get(random.nextInt(words.size()));
     }
 
+    public String getRandomWord(int length) {
+        Random random = new Random();
+        List<String> words = new ArrayList<>(dictionary.values().stream().flatMap(List::stream).toList());
+        List<String> wordsWithLength = new ArrayList<>();
+
+        for (String word : words) {
+            if (word.length() == length) {
+                wordsWithLength.add(word);
+            }
+        }
+
+        if (wordsWithLength.isEmpty()) {
+            throw new IllegalArgumentException("No words found with specified length: " + length);
+        }
+
+        return wordsWithLength.get(random.nextInt(wordsWithLength.size()));
+    }
 }
