@@ -93,14 +93,34 @@ public class Wisielec extends JFrame {
                 setAttemptsLeft(4);
             }
         });
+        JMenu languageMenu = new JMenu("Język");
+        JMenuItem englishMenuItem = new JMenuItem("Angielski");
+        JMenuItem polishMenuItem = new JMenuItem("Polski");
+
+        englishMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //setLanguage("english");
+            }
+        });
+
+        polishMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //setLanguage("polish");
+            }
+        });
 
         difficultyMenu.add(easyMenuItem);
         difficultyMenu.add(mediumMenuItem);
         difficultyMenu.add(hardMenuItem);
-
+        languageMenu.add(englishMenuItem);
+        languageMenu.add(polishMenuItem);
+        
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(difficultyMenu);
-
+        menuBar.add(languageMenu);
+        
         setJMenuBar(menuBar);
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
