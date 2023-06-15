@@ -19,6 +19,7 @@ public class Wisielec extends JFrame {
     private StringBuilder currentWordState;
     private int attemptsLeft;
     private StringBuilder usedLetters;
+    private JButton resetButton;
     
     private Map<Integer, String> texturePaths;
 
@@ -27,12 +28,11 @@ public class Wisielec extends JFrame {
         this.currentWordState = new StringBuilder(wordToGuess.replaceAll("[a-zA-Z]", "_"));
         this.attemptsLeft = 7;
         this.usedLetters = new StringBuilder();
+        this.texturePaths = TextureMap.createTextureMap();
 
-        this.texturePaths =TextureMap.createTextureMap();
-        
         setTitle("Wisielec");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
 
         wordLabel = new JLabel(currentWordState.toString());
         attemptsLabel = new JLabel("Pozostałe próby: " + attemptsLeft);
@@ -40,6 +40,7 @@ public class Wisielec extends JFrame {
         guessButton = new JButton("Zgadnij");
         textureLabel = new JLabel();
         usedLettersLabel = new JLabel();
+        resetButton = new JButton("Resetuj grę");
 
         guessButton.addActionListener(new ActionListener() {
             @Override
@@ -55,14 +56,31 @@ public class Wisielec extends JFrame {
             }
         });
 
-        add(wordLabel);
-        add(attemptsLabel);
-        add(inputField);
-        add(guessButton);
-        add(textureLabel);
-        add(usedLettersLabel);
-        usedLettersLabel.setText("Użyte litery:");
-        setSize(windowWidth, windowHeight);	
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetGame();
+            }
+        });
+
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout());
+        topPanel.add(wordLabel);
+        topPanel.add(attemptsLabel);
+        topPanel.add(inputField);
+        topPanel.add(guessButton);
+        topPanel.add(resetButton);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout());
+        bottomPanel.add(textureLabel);
+        bottomPanel.add(usedLettersLabel);
+        //bottomPanel.add(resetButton);
+
+        add(topPanel, BorderLayout.NORTH);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        setSize(windowWidth, windowHeight);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -120,6 +138,18 @@ public class Wisielec extends JFrame {
         Image scaledImage = image.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
         textureIcon = new ImageIcon(scaledImage);
         textureLabel.setIcon(textureIcon);
+    }
+    private void resetGame() {
+        currentWordState = new StringBuilder(wordToGuess.replaceAll("[a-zA-Z]", "_"));
+        attemptsLeft = 7;
+        usedLetters = new StringBuilder();
+
+        wordLabel.setText(currentWordState.toString());
+        attemptsLabel.setText("Pozostałe próby: " + attemptsLeft);
+        usedLettersLabel.setText("Użyte litery: ");
+        inputField.setText("");
+
+        updateTexture();
     }
 
     public static void main(String[] args) {
