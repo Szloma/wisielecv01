@@ -2,8 +2,9 @@ package wisielecv01;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.List;
 
-public class WordBase {
+public class WordBase implements WordRepository{
     private List<String> englishWords;
     private List<String> polishWords;
     private String language;
