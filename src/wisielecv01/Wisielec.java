@@ -12,7 +12,9 @@ public class Wisielec extends JFrame {
 	private JLabel wordLabel;
     private JLabel attemptsLabel;
     private JTextField inputField;
+    private JTextField addWordField;
     private JButton guessButton;
+    private JButton addWordButton;
     private JLabel textureLabel;
     private JLabel usedLettersLabel;
 
@@ -40,6 +42,7 @@ public class Wisielec extends JFrame {
         attemptsLabel = new JLabel("Pozostałe próby: " + attemptsLeft);
         inputField = new JTextField(1);
         guessButton = new JButton("Zgadnij");
+        addWordButton = new JButton("Dodaj słowo");
         textureLabel = new JLabel();
         usedLettersLabel = new JLabel("Użyte litery:");
         resetButton = new JButton("Resetuj grę");
@@ -57,6 +60,13 @@ public class Wisielec extends JFrame {
                 guessWord();
             }
         });
+        addWordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addWord();
+            }
+        });
+
 
         resetButton.addActionListener(new ActionListener() {
             @Override
@@ -129,6 +139,7 @@ public class Wisielec extends JFrame {
         topPanel.add(inputField);
         topPanel.add(guessButton);
         topPanel.add(resetButton);
+        topPanel.add(addWordButton);
 
         
         JPanel midPanel = new JPanel();
@@ -151,7 +162,7 @@ public class Wisielec extends JFrame {
     }
     private void setDifficulty(int length) {
     	//tu napisać funkcje żeby getrandomword zwracało słowo danej długości
-        wordToGuess = wordBase.getRandomWord();
+        wordToGuess = wordBase.getRandomWord(length);
         currentWordState = new StringBuilder("_".repeat(wordToGuess.length()));
         wordLabel.setText(currentWordState.toString());
         resetGame();
@@ -231,6 +242,50 @@ public class Wisielec extends JFrame {
         inputField.setText("");
 
         updateTexture();
+    }
+    private void addWord() {
+    	JFrame dialogFrame = new JFrame("Dodaj słowo");
+        JPanel dialogPanel = new JPanel();
+        JLabel languageLabel = new JLabel("Język:");
+        String[] languages = {"english", "polish"};
+        JComboBox<String> languageComboBox = new JComboBox<>(languages);
+        JLabel wordLabel = new JLabel("Słowo:");
+        addWordField = new JTextField(20);
+        JButton addButton = new JButton("Dodaj");
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String language = languageComboBox.getSelectedItem().toString();
+                String word = addWordField.getText().toLowerCase();
+
+                if (!word.isEmpty()) {
+                    if (wordBase.addWord(language, word)) {
+                        JOptionPane.showMessageDialog(null, "Słowo zostało dodane.");
+                        addWordField.setText("");
+                        wordBase.DEBUGprintAllWords();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Nie udało się dodać słowa.");
+                  
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Wprowadź słowo.");
+                }
+            }
+        });
+
+        dialogPanel.setLayout(new GridLayout(3, 2));
+        dialogPanel.add(languageLabel);
+        dialogPanel.add(languageComboBox);
+        dialogPanel.add(wordLabel);
+        dialogPanel.add(addWordField);
+        dialogPanel.add(new JLabel());
+        dialogPanel.add(addButton);
+
+        dialogFrame.add(dialogPanel);
+        dialogFrame.pack();
+        dialogFrame.setLocationRelativeTo(null);
+        dialogFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
