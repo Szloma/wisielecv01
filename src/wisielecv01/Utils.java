@@ -31,5 +31,13 @@ public class Utils {
         
         throw new IllegalArgumentException("No character found at the given index.");
     }
+    public static boolean containsNumbers(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

@@ -181,7 +181,7 @@ public class Wisielec extends JFrame {
     private void guessWord() {
     	
         String guess = inputField.getText().toLowerCase();
-        if(guess.length()!=0) {
+        if(guess.length()!=0 && !Utils.containsNumbers(guess)) {
         	boolean correctGuess = false;
         	
         	//sekcja użytych liter
