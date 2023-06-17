@@ -86,8 +86,15 @@ public class WordBase implements WordRepository{
         // Add English words to the English dictionary
         englishWords.add("george");
         englishWords.add("pjatk");
-        englishWords.add("cream");
+
         englishWords.add("quaternioin");
+        englishWords.add("keyboard");
+        englishWords.add("rock");
+        englishWords.add("cream");
+        englishWords.add("polish");
+        englishWords.add("freedom");
+        englishWords.add("sentence");
+        englishWords.add("lighthouse");
         // ...
     }
 
@@ -97,6 +104,10 @@ public class WordBase implements WordRepository{
         polishWords.add("pjatk");
         polishWords.add("masz");
         polishWords.add("twarz");
+        polishWords.add("kwiatki");
+        polishWords.add("wspolnik");
+        polishWords.add("podroze");
+        polishWords.add("bezpieczny");
         // ...
     }
 }
